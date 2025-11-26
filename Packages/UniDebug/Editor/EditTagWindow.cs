@@ -308,40 +308,48 @@ namespace UniDebug.Editor
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            // 파일 경로 찾기: Assets 폴더 내의 기존 DebugTag.cs 우선 검색
+            // 패키지 내부의 DebugTag.cs 찾기
             var guids = AssetDatabase.FindAssets("DebugTag t:script");
             string filePath = null;
 
             foreach (var guid in guids)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                // Assets 폴더 내의 DebugTag.cs를 우선 사용 (패키지 폴더는 읽기 전용일 수 있음)
-                if (path.EndsWith("DebugTag.cs") && path.StartsWith("Assets/"))
+                if (path.EndsWith("DebugTag.cs") && path.Contains("UniDebug") && path.Contains("Runtime/Tag"))
                 {
                     filePath = path;
                     break;
                 }
             }
 
-            // Assets 폴더에 없으면 새로 생성
             if (string.IsNullOrEmpty(filePath))
             {
-                filePath = "Assets/UniDebug/DebugTag.cs";
+                Debug.LogError("DebugTag.cs 파일을 찾을 수 없습니다.");
+                return;
             }
 
-            // 디렉토리가 없으면 생성
+            // 파일 쓰기 시도
             var fullPath = Path.GetFullPath(filePath);
-            var directory = Path.GetDirectoryName(fullPath);
-            if (!Directory.Exists(directory))
+            
+            try
             {
-                Directory.CreateDirectory(directory);
+                File.WriteAllText(fullPath, sb.ToString());
+                AssetDatabase.Refresh();
+                Debug.Log($"DebugTag.cs가 업데이트되었습니다. 태그 수: {tags.Count}");
             }
-
-            // 파일 쓰기
-            File.WriteAllText(fullPath, sb.ToString());
-
-            AssetDatabase.Refresh();
-            Debug.Log($"DebugTag.cs가 업데이트되었습니다. 경로: {filePath}, 태그 수: {tags.Count}");
+            catch (UnauthorizedAccessException)
+            {
+                // 읽기 전용 패키지 (Git URL로 설치된 경우)
+                Debug.LogError(
+                    "UniDebug 패키지가 읽기 전용입니다. Git URL로 설치된 패키지는 태그를 수정할 수 없습니다.\n" +
+                    "태그를 커스터마이즈하려면 다음 방법 중 하나를 사용하세요:\n" +
+                    "1. 패키지를 Packages 폴더에 직접 복사 (임베디드 패키지로 변환)\n" +
+                    "2. 레포지토리를 fork하여 수정 후 사용");
+            }
+            catch (IOException ex)
+            {
+                Debug.LogError($"DebugTag.cs 파일 쓰기 실패: {ex.Message}");
+            }
         }
     }
 }

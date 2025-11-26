@@ -2,8 +2,7 @@
     "name": "UniDebug.Editor",
     "rootNamespace": "UniDebug.Editor",
     "references": [
-        "UniDebug.Runtime",
-        "UniDebug.Tags"
+        "UniDebug.Runtime"
     ],
     "includePlatforms": [
         "Editor"
