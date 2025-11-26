@@ -11,12 +11,12 @@ Unity用のカスタムデバッグログシステムです。
 3. 「Add package from git URL...」を選択
 4. 以下のURLを入力:
 ```
-https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug
+https://github.com/nekoya404/UniDebug.git?path=Packages/UniDebug
 ```
 
 バージョンを指定する場合:
 ```
-https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug#1.0.0
+https://github.com/nekoya404/UniDebug.git?path=Packages/UniDebug#1.0.0
 ```
 
 ### または manifest.json に直接追加
@@ -25,7 +25,7 @@ https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug#1.0.0
 ```json
 {
   "dependencies": {
-    "com.nekoya404.unidebug": "https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug"
+    "com.nekoya404.unidebug": "https://github.com/nekoya404/UniDebug.git?path=Packages/UniDebug"
   }
 }
 ```
@@ -34,7 +34,7 @@ https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug#1.0.0
 ```json
 {
   "dependencies": {
-    "com.nekoya404.unidebug": "https://github.com/nekoya404/UniDebug.git?path=/Packages/UniDebug#1.0.0"
+    "com.nekoya404.unidebug": "https://github.com/nekoya404/UniDebug.git?path=Packages/UniDebug#1.0.0"
   }
 }
 ```
