@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.nekoya404.unidebug": {
+      "version": "file:UniDebug",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.animation": {
       "version": "10.2.1",
       "depth": 1,

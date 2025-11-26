@@ -1,0 +1,28 @@
+{
+  "name": "com.nekoya404.unidebug",
+  "version": "1.0.0",
+  "displayName": "UniDebug",
+  "description": "Unity用のデバッグログライブラリ。カスタムタグによるフィルタリング、ログレベル別のStack Trace設定、EditorWindowでの視覚的な設定管理などの機能を提供します。",
+  "unity": "2021.3",
+  "documentationUrl": "https://github.com/nekoya404/UniDebug#readme",
+  "changelogUrl": "https://github.com/nekoya404/UniDebug/releases",
+  "licensesUrl": "https://github.com/nekoya404/UniDebug/blob/master/LICENSE",
+  "keywords": [
+    "debug",
+    "log",
+    "logger",
+    "debugging",
+    "utility"
+  ],
+  "author": {
+    "name": "nekoya404",
+    "url": "https://github.com/nekoya404"
+  },
+  "samples": [
+    {
+      "displayName": "Basic Usage",
+      "description": "UniDebugの基本的な使い方を示すサンプル。タグフィルタリング、ログレベル、スタックトレース設定などのデモを含みます。",
+      "path": "Samples~/BasicUsage"
+    }
+  ]
+}

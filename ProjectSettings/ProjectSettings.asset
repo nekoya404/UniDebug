@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 28
-  productGUID: ac08d71bf22344b4dbd6aa714b3d3791
+  productGUID: 7f692b7d8bf3640aeb5ea53b498c682a
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: UniDebug
+  productName: UniDebugSample
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -604,7 +604,7 @@ PlayerSettings:
   ps4GarlicHeapSize: 2048
   ps4ProGarlicHeapSize: 2560
   playerPrefsMaxSize: 32768
-  ps4Passcode: i17f87jKwVTZjGxmjVT6ZvPauMUIsR2t
+  ps4Passcode: RIabZkG4Iwm6XCjQ7JUPg5JaxmVVaXSn
   ps4pnSessions: 1
   ps4pnPresence: 1
   ps4pnFriends: 1
@@ -693,14 +693,14 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: UniDebug
+  metroPackageName: UniDebugSample
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: UniDebug
+  metroApplicationDescription: UniDebugSample
   wsaImages: {}
   metroTileShortName: 
   metroTileShowName: 0
@@ -771,10 +771,10 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 3cd478d5-96ef-46e9-8e46-02f15ff71594
+  cloudProjectId: a487d6d2-6f15-4321-9884-3933096f57c0
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: UniDebug
+  projectName: UniDebugSample
   organizationId: happyeohjin13
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
