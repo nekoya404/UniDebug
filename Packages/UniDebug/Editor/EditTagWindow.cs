@@ -308,32 +308,40 @@ namespace UniDebug.Editor
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            // 파일 경로 찾기
+            // 파일 경로 찾기: Assets 폴더 내의 기존 DebugTag.cs 우선 검색
             var guids = AssetDatabase.FindAssets("DebugTag t:script");
             string filePath = null;
 
             foreach (var guid in guids)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                if (path.EndsWith("DebugTag.cs") && path.Contains("UniDebug"))
+                // Assets 폴더 내의 DebugTag.cs를 우선 사용 (패키지 폴더는 읽기 전용일 수 있음)
+                if (path.EndsWith("DebugTag.cs") && path.StartsWith("Assets/"))
                 {
                     filePath = path;
                     break;
                 }
             }
 
+            // Assets 폴더에 없으면 새로 생성
             if (string.IsNullOrEmpty(filePath))
             {
-                // 기본 경로 사용
-                filePath = "Packages/UniDebug/Runtime/Tag/DebugTag.cs";
+                filePath = "Assets/UniDebug/DebugTag.cs";
+            }
+
+            // 디렉토리가 없으면 생성
+            var fullPath = Path.GetFullPath(filePath);
+            var directory = Path.GetDirectoryName(fullPath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
             }
 
             // 파일 쓰기
-            var fullPath = Path.GetFullPath(filePath);
             File.WriteAllText(fullPath, sb.ToString());
 
             AssetDatabase.Refresh();
-            Debug.Log($"DebugTag.cs가 업데이트되었습니다. 태그 수: {tags.Count}");
+            Debug.Log($"DebugTag.cs가 업데이트되었습니다. 경로: {filePath}, 태그 수: {tags.Count}");
         }
     }
 }
