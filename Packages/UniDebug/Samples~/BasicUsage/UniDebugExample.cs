@@ -315,8 +315,8 @@ public class UniDebugExample : MonoBehaviour
     {
         if (DebugLogger.GlobalConsoleLogManager != null)
         {
-            DebugLogger.Log("[Test]ConsoleLogManagerが有効化されています", UniDebug.DebugTag.hehe);
-            DebugLogger.Log("[hehe]ConsoleLogManagerが有効化されています");
+            DebugLogger.Log("[Test]ConsoleLogManagerが有効化されています", UniDebug.DebugTag.Default);
+            DebugLogger.Log("[Default]ConsoleLogManagerが有効化されています");
             DebugLogger.Log("ConsoleLogManagerが有効化されています");
         }
         else
