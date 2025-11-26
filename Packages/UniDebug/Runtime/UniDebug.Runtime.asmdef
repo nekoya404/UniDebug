@@ -1,7 +1,9 @@
 {
     "name": "UniDebug.Runtime",
     "rootNamespace": "UniDebug",
-    "references": [],
+    "references": [
+        "UniDebug.Tags"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
