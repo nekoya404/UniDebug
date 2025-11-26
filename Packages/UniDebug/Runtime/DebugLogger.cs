@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using UniDebug;
 using UniDebug.Utils;
@@ -183,22 +182,6 @@ public static partial class DebugLogger
 #endif
     }
 
-    private static string CreateElement(string message, string tag, LogLevel level)
-    {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        // タグ調整
-        AdjustTag(ref tag);
-
-        // スレッドセーフなインクリメント
-        Interlocked.Increment(ref _logNumber);
-
-        var dividerColor = GetDividerColor(level);
-        return $"({tag}) <color={dividerColor}><b>|</b></color> {message}";
-#else
-        return message;
-#endif
-    }
-
     public static string RemoveElement(string text)
     {
         if (string.IsNullOrEmpty(text))
@@ -362,29 +345,8 @@ public static partial class DebugLogger
         }
     }
 
-    private static void LogImpl(string message, string tag, LogLevel level)
-    {
-        var element = CreateElement(message, tag, level);
-        if (element == null) { return; }
-
-        switch (level)
-        {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-            case LogLevel.Debug:
-                Debug.Log(element);
-                break;
-            case LogLevel.Warning:
-                Debug.LogWarning(element);
-                break;
-#endif
-            case LogLevel.Error:
-                Debug.LogError(element);
-                break;
-        }
-    }
-
     /// <summary>
-    /// 行番号を含むAssert実装（新バージョン）
+    /// 行番号を含むAssert実装
     /// </summary>
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
@@ -392,16 +354,6 @@ public static partial class DebugLogger
     {
         if (assertion) { return; }
         LogImplWithLine(message, tag, level, lineNumber);
-        AssertionStop();
-    }
-
-    // ReSharper disable Unity.PerformanceAnalysis
-    [System.Diagnostics.Conditional("UNITY_EDITOR")]
-    [System.Diagnostics.Conditional("DEVELOPMENT_BUILD")]
-    private static void AssertImpl(bool assertion, string message, string tag, LogLevel level)
-    {
-        if (assertion) { return; }
-        LogImpl(message, tag, level);
         AssertionStop();
     }
 
