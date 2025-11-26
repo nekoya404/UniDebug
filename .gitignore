@@ -90,6 +90,7 @@ Thumbs.db
 *.swo
 *~
 !Documentation~/
+!**/Samples~/
 
 # JetBrains Rider
 .idea/
