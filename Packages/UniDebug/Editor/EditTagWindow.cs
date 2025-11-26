@@ -308,19 +308,8 @@ namespace UniDebug.Editor
             sb.AppendLine("    }");
             sb.AppendLine("}");
 
-            // 패키지 내부의 DebugTag.cs 찾기
-            var guids = AssetDatabase.FindAssets("DebugTag t:script");
-            string filePath = null;
-
-            foreach (var guid in guids)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                if (path.EndsWith("DebugTag.cs") && path.Contains("UniDebug") && path.Contains("Runtime/Tag"))
-                {
-                    filePath = path;
-                    break;
-                }
-            }
+            // DebugTag.cs 파일 경로 찾기
+            string filePath = FindDebugTagFilePath();
 
             if (string.IsNullOrEmpty(filePath))
             {
@@ -330,7 +319,7 @@ namespace UniDebug.Editor
 
             // 파일 쓰기 시도
             var fullPath = Path.GetFullPath(filePath);
-            
+
             try
             {
                 File.WriteAllText(fullPath, sb.ToString());
@@ -350,6 +339,98 @@ namespace UniDebug.Editor
             {
                 Debug.LogError($"DebugTag.cs 파일 쓰기 실패: {ex.Message}");
             }
+        }
+
+        /// <summary>
+        /// DebugTag.cs 파일 경로 찾기 (여러 방법 시도)
+        /// </summary>
+        private static string FindDebugTagFilePath()
+        {
+            // 방법 1: AssetDatabase.FindAssets 사용 (표준 방식)
+            var guids = AssetDatabase.FindAssets("DebugTag t:script");
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (path.EndsWith("DebugTag.cs") && path.Contains("UniDebug") && path.Contains("Runtime/Tag"))
+                {
+                    return path;
+                }
+            }
+
+            // 방법 2: 파일 이름만으로 검색 (t:script 필터 없이)
+            guids = AssetDatabase.FindAssets("DebugTag");
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (path.EndsWith("DebugTag.cs") && path.Contains("UniDebug"))
+                {
+                    return path;
+                }
+            }
+
+            // 방법 3: 예상 경로 직접 확인 (Packages 폴더)
+            var expectedPaths = new[]
+            {
+                "Packages/UniDebug/Runtime/Tag/DebugTag.cs",
+                "Packages/com.nekoya.unidebug/Runtime/Tag/DebugTag.cs"
+            };
+
+            foreach (var path in expectedPaths)
+            {
+                var fullPath = Path.GetFullPath(path);
+                if (File.Exists(fullPath))
+                {
+                    return path;
+                }
+            }
+
+            // 방법 4: 현재 스크립트 위치 기준으로 상대 경로 탐색
+            var scriptPath = GetCurrentScriptPath();
+            if (!string.IsNullOrEmpty(scriptPath))
+            {
+                // Editor 폴더에서 Runtime/Tag/DebugTag.cs로 이동
+                var editorDir = Path.GetDirectoryName(scriptPath);
+                var packageDir = Path.GetDirectoryName(editorDir);
+                var debugTagPath = Path.Combine(packageDir, "Runtime", "Tag", "DebugTag.cs");
+                var normalizedPath = debugTagPath.Replace("\\", "/");
+
+                if (File.Exists(Path.GetFullPath(normalizedPath)))
+                {
+                    return normalizedPath;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 현재 스크립트(EditTagWindow.cs)의 경로 반환
+        /// </summary>
+        private static string GetCurrentScriptPath()
+        {
+            // MonoScript를 통해 현재 스크립트 위치 찾기
+            var guids = AssetDatabase.FindAssets("EditTagWindow t:script");
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (path.EndsWith("EditTagWindow.cs"))
+                {
+                    return path;
+                }
+            }
+
+            // MonoScript 직접 검색
+            var scripts = AssetDatabase.FindAssets("t:MonoScript");
+            foreach (var guid in scripts)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                if (path.EndsWith("EditTagWindow.cs") && path.Contains("UniDebug"))
+                {
+                    return path;
+                }
+            }
+
+            return null;
         }
     }
 }
